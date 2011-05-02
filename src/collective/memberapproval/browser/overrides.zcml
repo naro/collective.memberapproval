@@ -1,0 +1,16 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser">
+
+  <include package="Products.CMFCore" />
+  <include package="plone.app.controlpanel" />
+
+  <browser:page
+      name="usergroup-userprefs"
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      class=".usergroups.UsersOverviewControlPanel"
+      permission="plone.app.controlpanel.UsersAndGroups"
+      template="usergroups_usersoverview.pt"
+      />
+
+</configure>

@@ -1,0 +1,8 @@
+.installed.cfg
+bin/
+develop-eggs/
+parts/
+src/collective.memberapproval.egg-info/
+.mr.developer.cfg
+src/pas.plugins.memberapproval/
+var

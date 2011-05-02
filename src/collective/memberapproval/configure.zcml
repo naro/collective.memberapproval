@@ -8,6 +8,7 @@
   <five:registerPackage package="." initialize=".initialize" />
 
   <include package="pas.plugins.memberapproval" />
+  <include package=".browser" />
 
   <genericsetup:registerProfile
       name="default"
@@ -16,6 +17,12 @@
       description="Installs the collective.memberapproval package"
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
-  <!-- -*- extra stuff goes here -*- -->
+
+  <genericsetup:importStep
+        name="MemberApprovalSetupVarious"
+        title="Member Approval setup"
+        description="Setup Member approval plugin"
+        handler=".setuphandlers.setupVarious"
+        />
   
 </configure>

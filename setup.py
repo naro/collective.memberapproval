@@ -26,6 +26,7 @@ setup(name='collective.memberapproval',
       zip_safe=False,
       install_requires=[
           'setuptools',
+          'Products.CMFCore',
           'pas.plugins.memberapproval',
       ],
       extras_require = {
