@@ -1,0 +1,4 @@
+<layers>
+    <layer name="collective.memberapproval"
+           interface="collective.memberapproval.browser.interfaces.IMemberApprovalLayer" />
+</layers>

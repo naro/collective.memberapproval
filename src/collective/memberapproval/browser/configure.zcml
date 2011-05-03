@@ -3,5 +3,22 @@
     xmlns:browser="http://namespaces.zope.org/browser">
 
   <includeOverrides file="overrides.zcml" />
+  <include package="plone.browserlayer" />
+  
+  <include package="z3c.jbot" file="meta.zcml" />
+
+  <browser:jbot
+        directory="template_overrides"
+        layer=".interfaces.IMemberApprovalLayer" />  
+
+  <browser:page
+      name="user-approval"
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      class=".approval.ApprovalView"
+      permission="plone.app.controlpanel.UsersAndGroups"
+      template="approval.pt"
+      layer=".interfaces.IMemberApprovalLayer"
+      allowed_interface=".interfaces.IApprovalView"
+      />
   
 </configure>

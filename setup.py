@@ -28,6 +28,7 @@ setup(name='collective.memberapproval',
           'setuptools',
           'Products.CMFCore',
           'pas.plugins.memberapproval',
+          'z3c.jbot',
       ],
       extras_require = {
           'test': [

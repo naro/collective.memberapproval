@@ -1,0 +1,83 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+    lang="en"
+    metal:use-macro="context/prefs_main_template/macros/master"
+    i18n:domain="plone">
+
+<body>
+
+<metal:main fill-slot="prefs_configlet_content"
+    tal:define="portal_url context/portal_url;
+                userid request/userid | nothing;
+                user_exists python:view.user_exists(userid);
+                userquery python:view.makeQuery(userid=userid);
+                approved python:view.is_approved(userid);
+                ">
+
+
+    <div>
+        <div metal:use-macro="context/global_statusmessage/macros/portal_message">
+          Portal status message
+        </div>
+
+        <div id="content">
+            <h1 class="documentFirstHeading"
+                i18n:translate="heading_user_approval">User approval</h1>
+
+            <div id="content-core">
+                <a href=""
+                   class="link-parent"
+                   tal:attributes="href string:$portal_url/@@user-information?${userquery}"
+                   i18n:translate="label_up_to_personal_information">Up to personal Information</a>
+                   
+                <tal:block tal:condition="user_exists">
+                    <div i18n:translate="text_user_approval_status">
+                        User "<span i18n:name="userid" tal:replace="userid"></span>" is currently <span 
+                                                 i18n:name="approved" 
+                                                 tal:condition="approved"
+                                                 tal:omit-tag=""
+                                                 >approved</span
+                                               ><span 
+                                                 i18n:name="notapproved"
+                                                 tal:condition="not:approved"
+                                                 tal:omit-tag=""
+                                                 >not approved</span>.
+                                             
+                    </div>
+                    <form action=""
+                          method="post"
+                          tal:attributes="action string:${portal_url}/${view/__name__}">
+                          <input type="hidden" name="userid" 
+                                 tal:attributes="value userid" />
+                          <div class="formControls">
+                              <input type="submit"
+                                     name="form.button.approve"
+                                     class="context"
+                                     tal:condition="not:approved"
+                                     value="Approve"
+                                     i18n:attributes="value button_approve" />
+                              <input type="submit"
+                                     name="form.button.unapprove"
+                                     class="context"
+                                     tal:condition="approved"
+                                     value="Unapprove"
+                                     i18n:attributes="value button_unapprove" />
+                          </div>
+                    </form>
+                </tal:block>
+                <tal:block tal:condition="not:user_exists">
+                    <p i18n:translate="text_user_does_not_exist">
+                        User "<span i18n:name="userid" tal:replace="userid">userid</span>" does not exist
+                    </p>
+                </tal:block>
+            </div>
+        </div>
+    </div>
+
+</metal:main>
+
+</body>
+</html>
+

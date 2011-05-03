@@ -14,6 +14,7 @@ class MemberApprovalTestSuite(PloneSandboxLayer):
         # Load ZCML
         import collective.memberapproval
         xmlconfig.file('configure.zcml', collective.memberapproval, context=configurationContext)
+        xmlconfig.file('overrides.zcml', collective.memberapproval, context=configurationContext)
 
     def setUpPloneSite(self, portal):
         # Install into Plone site using portal_setup

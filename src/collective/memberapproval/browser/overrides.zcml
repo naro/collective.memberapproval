@@ -11,6 +11,7 @@
       class=".usergroups.UsersOverviewControlPanel"
       permission="plone.app.controlpanel.UsersAndGroups"
       template="usergroups_usersoverview.pt"
+      layer=".interfaces.IMemberApprovalLayer"
       />
 
 </configure>
