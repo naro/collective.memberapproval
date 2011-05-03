@@ -11,26 +11,21 @@ from plone.app.controlpanel.usergroups import \
         
 class UsersOverviewControlPanel(BaseUsersOverviewControlPanel):
 
-    def _approval_plugin(self):
-        acl = getToolByName(self, 'acl_users')
-        return acl['source_users_approval']
-
     def manageUser(self, users=[], resetpassword=[], delete=[]):
         super(UsersOverviewControlPanel, self).manageUser(users, resetpassword, delete)
-        approval_plugin = self._approval_plugin()
+        acl_users = getToolByName(self.context, 'acl_users')
         form = self.request.form
         all_userids = form.get('is_approved_all', [])
         to_approve = form.get('is_approved', [])
         for userid in all_userids:
             if userid in to_approve:
-                approval_plugin.approveUser(userid)
+                acl_users.approveUser(userid)
             else:
-                approval_plugin.unapproveUser(userid)
+                acl_users.unapproveUser(userid)
     
     def doSearch(self, searchString):
         acl = getToolByName(self, 'acl_users')
         rolemakers = acl.plugins.listPlugins(IRolesPlugin)
-        approval_plugin = self._approval_plugin()
         
         mtool = getToolByName(self, 'portal_membership')
 
@@ -68,14 +63,14 @@ class UsersOverviewControlPanel(BaseUsersOverviewControlPanel):
         results = []
         for user_info in explicit_users:
             userId = user_info['id']
-            user_approved = approval_plugin.userApproved(userId)
-            if approval_plugin is not None:
-                if approved_status=='1':
-                    if not user_approved:
-                        continue
-                elif approved_status=='0':
-                    if user_approved:
-                        continue
+            user_approved = acl.userApproved(userId)
+            if approved_status=='1':
+                if not user_approved:
+                    continue
+            elif approved_status=='0':
+                if user_approved:
+                    continue
+
             user = mtool.getMemberById(userId)
             # play safe, though this should never happen
             if user is None:

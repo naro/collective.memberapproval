@@ -30,25 +30,23 @@ class ApprovalView(BrowserView):
         
     @property
     @view.memoize
-    def plugin(self):
-        acl = getToolByName(self.portal_state().portal(), 'acl_users') 
-        return acl["source_users_approval"]
+    def acl_users(self):
+        return getToolByName(self.portal_state().portal(), 'acl_users') 
 
     def user_exists(self, userid):
-        acl = getToolByName(self.portal_state().portal(), 'acl_users') 
-        return userid and (not not acl.getUserById(userid))
+        return userid and (not not self.acl_users.getUserById(userid))
         
     def approve_user(self, userid):
         if userid:
-            self.plugin.approveUser(userid)
+            self.acl_users.approveUser(userid)
 
     def unapprove_user(self, userid):
         if userid:
-            self.plugin.unapproveUser(userid)
+            self.acl_users.unapproveUser(userid)
         
     def is_approved(self, userid):
         if userid:
-            return self.plugin.userApproved(userid)
+            return self.acl_users.userApproved(userid)
 
     def __call__(self):
         form = self.request.form
