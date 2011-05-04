@@ -11,14 +11,34 @@
         directory="template_overrides"
         layer=".interfaces.IMemberApprovalLayer" />  
 
-  <browser:page
-      name="user-approval"
+  <browser:pages
       for="Products.CMFPlone.interfaces.IPloneSiteRoot"
       class=".approval.ApprovalView"
       permission="plone.app.controlpanel.UsersAndGroups"
-      template="approval.pt"
       layer=".interfaces.IMemberApprovalLayer"
       allowed_interface=".interfaces.IApprovalView"
-      />
+      >
+
+      <browser:page
+          name="user-approval"
+          template="approval.pt"
+          />
+          
+      <browser:page
+          name="user-approve"
+          attribute="approve_user"
+          />
+          
+      <browser:page
+          name="user-disapprove"
+          attribute="disapprove_user"
+          />
+          
+      <browser:page
+          name="user_approved"
+          attribute="is_approved"
+          />
+          
+   </browser:pages>
   
 </configure>

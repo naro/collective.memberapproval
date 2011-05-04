@@ -14,4 +14,15 @@
       layer=".interfaces.IMemberApprovalLayer"
       />
 
+  <include package="plone.app.users" />
+
+  <browser:page
+      name="user-information"
+      for="plone.app.layout.navigation.interfaces.INavigationRoot"
+      class=".personalpreferences.NGBUserDataConfiglet"
+      permission="plone.app.controlpanel.UsersAndGroups"
+      layer=".interfaces.IMemberApprovalLayer"
+      />
+
+
 </configure>

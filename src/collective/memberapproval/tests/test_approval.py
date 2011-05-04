@@ -18,6 +18,9 @@ class ApprovalTest(unittest.TestCase):
         self.browser = Browser(self.layer['app'])
         self.browser.handleErrors = False
 
+    def tearDown(self):
+        self.portal.acl_users.disapproveUser(TEST_USER_ID)
+        
     def login(self, username=TEST_USER_NAME, password=TEST_USER_PASSWORD, root=None):
         if root is None:
             root = self.portal
@@ -29,11 +32,24 @@ class ApprovalTest(unittest.TestCase):
         self.browser.getControl(name='submit').click()
 
     def test_overrides(self):
-        portal = self.layer['portal']
         self.login(username=SITE_OWNER_NAME, password=SITE_OWNER_PASSWORD, root=self.layer['app'])
-        self.browser.open(portal.absolute_url()+'/@@usergroup-userprefs')
+        self.browser.open(self.portal.absolute_url()+'/@@usergroup-userprefs')
         self.failIf('Login Name' in self.browser.contents)
-        self.failUnless('Only unapproved' in self.browser.contents)
+        self.failUnless('Only disapproved' in self.browser.contents)
+
+        # This test does not work - user seems to be approved even if it should be initially disapproved
+        self.browser.open(self.portal.absolute_url()+'/@@user-information?userid='+TEST_USER_ID)
+        self.failUnless('Approve user' in self.browser.contents)
+
+    def test_approval_view(self):
+        self.login(username=SITE_OWNER_NAME, password=SITE_OWNER_PASSWORD, root=self.layer['app'])
+        self.browser.open(self.portal.absolute_url()+'/@@user-information?userid='+TEST_USER_ID)
+        # This test does not work - user seems to be approved even if it should be initially disapproved
+        self.browser.getLink('Approve user').click()
+        # browser returns to previous URL
+        self.failUnless('/@@user-information?userid='+TEST_USER_ID in self.browser.url)
+        # user is approved now
+        self.failUnless('Disapprove user' in self.browser.contents)
 
     def test_plugin_works(self):
         portal = self.layer['portal']
@@ -55,7 +71,7 @@ class ApprovalTest(unittest.TestCase):
         self.failUnless('User "%s" is currently not approved'%TEST_USER_ID in self.browser.contents)
         self.browser.getControl('Approve').click()
         self.failUnless('User "%s" is currently approved'%TEST_USER_ID in self.browser.contents)
-        self.browser.getControl('Unapprove').click()
+        self.browser.getControl('Disapprove').click()
         self.failUnless('User "%s" is currently not approved'%TEST_USER_ID in self.browser.contents)
 
         # ok, approve again

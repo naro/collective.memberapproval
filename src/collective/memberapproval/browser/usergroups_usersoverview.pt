@@ -135,7 +135,7 @@
                                       <option value="1" 
                                               tal:attributes="selected python:current=='1'">Only approved</option>
                                       <option value="0" 
-                                              tal:attributes="selected python:current=='0'">Only unapproved</option>
+                                              tal:attributes="selected python:current=='0'">Only disapproved</option>
                                   </select>
                               </th>
                           </tr>

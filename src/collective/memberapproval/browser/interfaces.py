@@ -8,7 +8,7 @@ class IApprovalView(Interface):
     def approve_user(userid):
         """ Approve particular user """
 
-    def unapprove_user(userid):
+    def disapprove_user(userid):
         """ Unapprove particular user """    
 
     def is_approved(userid):

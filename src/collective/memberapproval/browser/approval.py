@@ -5,6 +5,7 @@ from plone.memoize import view
 from Products.CMFCore.utils import getToolByName
 from ZTUtils import make_query
 
+from collective.memberapproval import memberapprovalMessageFactory as _
 from collective.memberapproval.browser.interfaces import IApprovalView
 
 class ApprovalView(BrowserView):
@@ -36,13 +37,25 @@ class ApprovalView(BrowserView):
     def user_exists(self, userid):
         return userid and (not not self.acl_users.getUserById(userid))
         
-    def approve_user(self, userid):
+    def approve_user(self, userid, REQUEST=None, RESPONSE=None):
         if userid:
             self.acl_users.approveUser(userid)
+            if REQUEST is not None:
+                referer = REQUEST.get('HTTP_REFERER')
+                if referer:
+                    ptool = getToolByName(self.context, 'plone_utils')
+                    ptool.addPortalMessage(_('User has been approved.'))
+                    return self.request.response.redirect(referer)
 
-    def unapprove_user(self, userid):
+    def disapprove_user(self, userid, REQUEST=None, RESPONSE=None):
         if userid:
-            self.acl_users.unapproveUser(userid)
+            self.acl_users.disapproveUser(userid)
+            if REQUEST is not None:
+                referer = REQUEST.get('HTTP_REFERER')
+                if referer:
+                    ptool = getToolByName(self.context, 'plone_utils')
+                    ptool.addPortalMessage(_('User has been disapproved.'))
+                    return self.request.response.redirect(referer)
         
     def is_approved(self, userid):
         if userid:
@@ -54,6 +67,6 @@ class ApprovalView(BrowserView):
         if userid:
             if form.has_key('form.button.approve'):
                 self.approve_user(userid)
-            elif form.has_key('form.button.unapprove'):
-                self.unapprove_user(userid)
+            elif form.has_key('form.button.disapprove'):
+                self.disapprove_user(userid)
         return self.index()

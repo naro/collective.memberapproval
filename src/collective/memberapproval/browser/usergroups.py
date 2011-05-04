@@ -21,7 +21,7 @@ class UsersOverviewControlPanel(BaseUsersOverviewControlPanel):
             if userid in to_approve:
                 acl_users.approveUser(userid)
             else:
-                acl_users.unapproveUser(userid)
+                acl_users.disapproveUser(userid)
     
     def doSearch(self, searchString):
         acl = getToolByName(self, 'acl_users')

@@ -19,8 +19,6 @@ class MemberApprovalTestSuite(PloneSandboxLayer):
     def setUpPloneSite(self, portal):
         # Install into Plone site using portal_setup
         applyProfile(portal, 'collective.memberapproval:default')
-        pass
-
 
 MEMBERAPPROVAL_FIXTURE = MemberApprovalTestSuite()
 MEMBERAPPROVAL_INTEGRATION_TESTING = IntegrationTesting(

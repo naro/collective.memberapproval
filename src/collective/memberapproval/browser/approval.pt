@@ -59,11 +59,11 @@
                                      value="Approve"
                                      i18n:attributes="value button_approve" />
                               <input type="submit"
-                                     name="form.button.unapprove"
+                                     name="form.button.disapprove"
                                      class="context"
                                      tal:condition="approved"
-                                     value="Unapprove"
-                                     i18n:attributes="value button_unapprove" />
+                                     value="Disapprove"
+                                     i18n:attributes="value button_disapprove" />
                           </div>
                     </form>
                 </tal:block>
