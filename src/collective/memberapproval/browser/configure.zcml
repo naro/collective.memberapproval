@@ -5,11 +5,11 @@
   <includeOverrides file="overrides.zcml" />
   <include package="plone.browserlayer" />
   
-  <include package="z3c.jbot" file="meta.zcml" />
+  <!-- <include package="z3c.jbot" file="meta.zcml" />
 
   <browser:jbot
         directory="template_overrides"
-        layer=".interfaces.IMemberApprovalLayer" />  
+        layer=".interfaces.IMemberApprovalLayer" />   -->
 
   <browser:pages
       for="Products.CMFPlone.interfaces.IPloneSiteRoot"
